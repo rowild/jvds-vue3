@@ -1,0 +1,44 @@
+{
+  "news": [
+    {
+      "_id": 0,
+      "date": "2018/10/30",
+      "title": "New pieces added to playlist",
+      "body": "Please check the audioplaylist - you will find new recordings of pieces, that haven't been there yet.",
+      "url": "",
+      "type": "news"
+    },
+    {
+      "_id": 1,
+      "date": "2018/10/29",
+      "title": "New Website launched!",
+      "body": "I am happy to announce that I am online now!",
+      "url": "2018-10-29_new-website-launched",
+      "type": "news"
+    },
+    {
+      "_id": 2,
+      "date": "2018/09/06",
+      "title": "Opus X finished",
+      "body": "A new opus for large ensemble received its final barlines.",
+      "url": "2018-09-06_opus-x-finished",
+      "type": "news"
+    },
+    {
+      "_id": 4,
+      "date": "2017/08/29",
+      "title": "New CD release",
+      "body": "Selected chamber music professionally recorded.",
+      "url": "2017-08-29_new-cd",
+      "type": "news"
+    },
+    {
+      "_id": 5,
+      "date": "2015/05/17",
+      "title": "Premiere of my new song cycle 'Paris forever'",
+      "body": "Sarah Hiller, alto, and JB Floyd, piano",
+      "url": "2015-05-07_premiere-of-song-cycle",
+      "type": "concert"
+    }
+  ]
+}

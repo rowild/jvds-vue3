@@ -1,0 +1,33 @@
+{
+  "header": "Welcome!",
+  "intro": "John Van der Slice is an American composer. This website provides a profound overview of his oeuvre.",
+  "body": {
+    "text01": "<p>All the relevant information in grouped into four different sections that you can access from right below or from the menu on the left side:</p>",
+    "columns01": {
+      "compositions": {
+        "title": "All Composition",
+        "url": "/compositions",
+        "content": "<ul><li>sortable</li><li>filterable</li><li>searchable</li></ul>"
+      },
+      "writings": {
+        "title": "Selected Writings",
+        "url": "/writings",
+        "content": "<ul><li>by John Van der Slice</li><li>about John Van der Slice</li></ul>"
+      }
+    },
+    "columns02": {
+      "scores": {
+        "title": "Score Samples",
+        "url": "/galleries/scores",
+        "content": "<ul><li>sortable</li><li>filterable</li><li>searchable</li></ul>"
+      },
+      "writings": {
+        "title": "Audio Playlist",
+        "content": "<p>Click on the 'Open Playlist' button in the bottom right to open the playlist.</p>"
+      }
+    },
+    "text02": "<p>For your convenience, the website offers the possibility to hide certain sections like the news column on the right side or also the menu on the left. Use the little arrows to toggle their visibility. The main content canvas will also anjust in size an provide a different reading experience.</p>",
+    "text03": "<p>If you happen to be watching thiswebsite on a device with a smaller screen dimension, some areas might already be inivisible. In that case just click the buttons to open them, whenever you need them.</p>",
+    "text04": "<p>In case you want to drop me an email, please find all the relevant infromation about how to get in touch with me on the <a href='/contact' title='Contact'>contact</a> page. I am looking forward to reading from you!</p>"
+  }
+}

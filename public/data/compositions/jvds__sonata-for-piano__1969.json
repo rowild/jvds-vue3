@@ -1,0 +1,23 @@
+{
+  "id":4,
+  "title":"Sonata for piano",
+  "categories":["solo","piano"],
+  "year":"1969",
+  "duration":"15min",
+  "orchestration":"piano",
+  "description":"Again a lot of text",
+  "performances":[
+  {
+    "id": "55652",
+    "date": "1969-12-12",
+    "location": "Hawaii Concert Hall",
+    "performer": [
+      {
+        "id": "19434069-f323-45a6-9573-488f4f1966bf",
+        "name": "Vincent Gropiius",
+        "instrument": "flute"
+      }
+    ]
+  }
+]
+}

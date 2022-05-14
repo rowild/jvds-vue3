@@ -1,0 +1,29 @@
+{
+  "id":33,
+  "title":"Duo",
+  "subtitle":"For Contrabassoon and Piano",
+  "categories":["chambermusic"],
+  "year":"1995",
+  "duration":"13:50 min",
+  "orchestration":"contrabassoon, piano",
+  "description":"<p>The <b>Duo for Contrabassoon and Piano</b> was commissioned by <b>Henry Skolnick</b>. It involves continual variation of material and, despite the use of serial methods of pitch organization which partially determine the character of certain sections, there is often the hint of a kind of extended tonality. After a succession of abrupt textural contrasts the music eventually takes on a focus of continuity and momentum which culminates in a surprisingly light-hearted stylistic allusion before losing control and collapsing into a relatively sedate close.</p>",
+  "performances":[
+    {
+      "id": "55652",
+      "date": "1969-12-12",
+      "location": "Hawaii Concert Hall",
+      "performer": [
+        {
+          "id": "19434069-f323-45a6-9573-488f4f1966bf",
+          "name": "Henry Skolnick",
+          "instrument": "contrabassoon"
+        },
+        {
+          "id": "19434069-f323-45a6-9573-488f4f1966bf",
+          "name": "José Lopez",
+          "instrument": "piano"
+        }
+      ]
+    }
+  ]
+}

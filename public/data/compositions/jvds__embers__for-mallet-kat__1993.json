@@ -1,0 +1,24 @@
+{
+  "id":30,
+  "title":"Embers",
+  "subtitle":"For Mallet-kat",
+  "categories":["electronics","solo"],
+  "year":"1993",
+  "duration":"12:13 min",
+  "orchestration":"electronics, marimba",
+  "description":"<p><b>Embers</b> was written in collaboration with Scott Deal who \"orchestrated\" the work for a Malletkat, an electronic (programmable MIDI controller) mallet percussion instrument. The work begins with an unfolding flow of static repetitions which become increasingly active. The growing complexity of patterns, punctuated by occasional disruptions, culminates in a sudden fragmentation of this continuity into isolated sound events (echoes of the previous unfolding continuity) surrounded by a void of silence. Eventually the isolated moments fuse into a new flow. Metaphorically, the piece may be heard to reflect our changing state of mind as we drift from the controlled, predictable flow of consciousness into the uncontrolled discontinuity which precedes sleep. Thus the title,  <b>Embers</b>, suggests remnants of thought...glowing, briefly flaring, dying...until a final reawakening.</p>",
+  "performances":[
+  {
+    "id": "55652",
+    "date": "",
+    "location": "",
+    "performer": [
+      {
+        "id": "19434069-f323-45a6-9573-488f4f1966bf",
+        "name": "Scott Deal, realizaion & performace",
+        "instrument": "Mallet-Kat"
+      }
+    ]
+  }
+]
+}

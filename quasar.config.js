@@ -9,12 +9,22 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
+
+// const {
+//   presetAttributify,
+//   presetIcons,
+//   presetTypography,
+//   presetUno,
+//   presetWebFonts
+// } = require("unocss");
+// const transformerDirective = require('@unocss/transformer-directives')
+
 const path = require('path')
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
-      // fix: true,
+      fix: true,
       // include = [],
       // exclude = [],
       // rawOptions = {},
@@ -23,31 +33,29 @@ module.exports = configure(function (/* ctx */) {
     },
 
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
-    // preFetch: true,
-
-    // app boot file (/src/boot)
-    // --> boot files are part of "main.js"
-    // https://v2.quasar.dev/quasar-cli/boot-files
+    preFetch: true,
     boot: [
       'i18n',
-      'axios'
+      'axios',
+      // 'unocss'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: [
-      'app.css'
+      'variables.css',
+      'app.css',
+      './form/buttons.css'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v5',
       // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
+      'mdi-v6',
       'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
@@ -59,7 +67,7 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16'
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -75,7 +83,14 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf, {
+        isServer,
+        isClient
+      }) {
+        // Object.assign(viteConf.resolve.alias, {
+        //   '@': path.join(__dirname, './src')
+        // })
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
@@ -85,13 +100,87 @@ module.exports = configure(function (/* ctx */) {
 
           // you need to set i18n resource including paths !
           include: path.resolve(__dirname, './src/i18n/**')
-        }]
+        }],
+        // [
+        //   "@unocss/vite",
+        //   {
+        //     presets: [
+        //       presetAttributify({}),
+        //       presetIcons(),
+        //       presetTypography(),
+        //       presetUno(),
+        //       presetWebFonts(),
+        //     ],
+        //     // transformers: [
+        //     //   transformerDirective(),
+        //     // ],
+        //     theme: {
+        //       colors: {
+
+        //       },
+        //       size: {
+        //         xs: "4px",
+        //         sm: "8px",
+        //         md: "16px",
+        //         lg: "24px",
+        //         xl: "48px",
+        //       },
+        //     },
+        //     rules: [
+        //       // ["no-shadow", { "box-shadow": "none" }],
+        //       // ["q-ma-auto", { margin: "auto" }],
+        //       // ["q-pa-auto", { padding: "auto" }],
+        //       // [
+        //       //   /^q-m[xy]-(\d+)$/,
+        //       //   ([, d]) => ({
+        //       //     "margin-left": `${d / 4}rem`,
+        //       //     "margin-right": `${d / 4}rem`,
+        //       //   }),
+        //       // ],
+        //       // [/^q-ma-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
+        //       // [
+        //       //   /^q-p[xy]-(\d+)$/,
+        //       //   ([, d]) => ({
+        //       //     "padding-left": `${d / 4}rem`,
+        //       //     "padding-right": `${d / 4}rem`,
+        //       //   }),
+        //       // ],
+        //       // [/^q-pa-(\d+)$/, ([, d]) => ({ padding: `${d / 4}rem` })],
+        //       // [
+        //       //   /^q-p[xy]-(.*)$/,
+        //       //   ([, c], { theme }) => {
+        //       //     if (theme.size[c])
+        //       //       return {
+        //       //         "padding-left": theme.size[c],
+        //       //         "padding-right": theme.size[c],
+        //       //       };
+        //       //   },
+        //       // ],
+        //       [
+        //         /^tw-pa-(.*)$/,
+        //         ([, c], {
+        //           theme
+        //         }) => {
+        //           if (theme.size[c]) return {
+        //             padding: theme.size[c]
+        //           };
+        //         },
+        //       ],
+        //       [
+        //         /^my-border-(\d+)$/,
+        //         ([, d]) => ({
+        //           "border": `${d / 4}rem solid red`
+        //         }),
+        //       ],
+        //     ],
+        //   },
+        // ]
       ]
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // https: true
+      // https: true,
       open: true // opens browser window automatically
     },
 
@@ -115,7 +204,14 @@ module.exports = configure(function (/* ctx */) {
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    // animations: [
+    //   "bounceInLeft",
+    //   "bounceOutRight",
+    //   "fadeIn",
+    //   "fadeOut",
+    //   "slideInDown",
+    //   "slideOutUp"
+    // ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#property-sourcefiles
     // sourceFiles: {
@@ -125,8 +221,6 @@ module.exports = configure(function (/* ctx */) {
     //   registerServiceWorker: 'src-pwa/register-service-worker',
     //   serviceWorker: 'src-pwa/custom-service-worker',
     //   pwaManifestFile: 'src-pwa/manifest.json',
-    //   electronMain: 'src-electron/electron-main',
-    //   electronPreload: 'src-electron/electron-preload'
     // },
 
     // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
@@ -161,55 +255,6 @@ module.exports = configure(function (/* ctx */) {
       // extendInjectManifestOptions (cfg) {},
       // extendManifestJson (json) {}
       // extendPWACustomSWConf (esbuildConf) {}
-    },
-
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
-    cordova: {
-      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-    },
-
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
-    capacitor: {
-      hideSplashscreen: true
-    },
-
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
-    electron: {
-      // extendElectronMainConf (esbuildConf)
-      // extendElectronPreloadConf (esbuildConf)
-
-      inspectPort: 5858,
-
-      bundler: 'packager', // 'packager' or 'builder'
-
-      packager: {
-        // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
-        // OS X / Mac App Store
-        // appBundleId: '',
-        // appCategoryType: '',
-        // osxSign: '',
-        // protocol: 'myapp://path',
-
-        // Windows only
-        // win32metadata: { ... }
-      },
-
-      builder: {
-        // https://www.electron.build/configuration/configuration
-
-        appId: 'jvds-vue3-frontend'
-      }
-    },
-
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
-    bex: {
-      contentScripts: [
-        'my-content-script'
-      ]
-
-      // extendBexScriptsConf (esbuildConf) {}
-      // extendBexManifestJson (json) {}
     }
   }
 })

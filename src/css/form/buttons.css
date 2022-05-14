@@ -1,0 +1,218 @@
+/* Component BUTTON and BUTTON GROUP */
+
+
+.btn-group {
+  &--nav-meta {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+/* Generell btn definition */
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  /* From the <button> definition */
+  font-family: sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  letter-spacing: .065em;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
+/* Button Colors */
+.btn-bright {
+  color: white;
+  background-color: var(--bg-color);
+  transition: background-color .25s; /* , color .25s */
+  &:hover {
+    background-color: var(--bg-color-hover);
+  }
+}
+
+.btn-dark {
+  background-color: var(--bg-color-dark);
+  box-shadow: var(--shadow-dark);
+  transition: background-color .25s, box-shadow .25s, color .25s;
+
+  & i,
+  & svg {
+    color: #ddd;
+    transition: color .25s;
+  }
+
+  &:hover {
+    background-color: var(--bg-color-dark-hover);
+    box-shadow: var(--shadow-dark-hover);
+
+    & svg {
+      color: orange;
+    }
+  }
+}
+
+/* Button Positions */
+.btn-centered-h {
+  width: auto;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.btn-bottom {
+  position: absolute;
+  bottom: 80px;
+}
+
+/* Button Sizes */
+.btn-small {
+  width: 26px;
+  height: 32px;
+  border-radius: 3px;
+}
+
+.btn-medium {
+  width: auto;
+  height: 45px;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.btn-important {
+  top: 15px;
+  /* width: 45px; */
+  margin-bottom: 34px;
+  line-height: auto !important;
+  text-align: center;
+  background: none;
+  box-shadow: none;
+  border-top: 0 none !important;
+
+  &.hover,
+  &.active {
+    background: none;
+  }
+}
+
+
+/* Button Form Variants */
+.btn-square {
+  width: 46px;
+  color: #ccc;
+  line-height: 46px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, .15);
+
+  &:last-of-type {
+    border-bottom: 1px solid rgba(255, 255, 255, .15);
+  }
+
+  & i,
+  & svg {
+    transition: color .25s;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    & i,
+    & svg {
+      color: orange;
+    }
+  }
+}
+
+
+/* Toggle buttons */
+.btn-toggle {
+  display: block;
+  &:hover {
+    color: orange;
+  }
+}
+.btn-toggle-nav-main {
+  left: 8px;
+  z-index: 6;
+}
+
+.btn-toggle-aside {
+  right: 235px;
+  left: auto;
+  z-index: 6;
+  border-radius: 3px 0 0 3px !important;
+}
+
+/* Navigation buttons */
+.btn-nav-meta-home {
+  position: absolute;
+}
+
+/* UI Buttons */
+.btn-ui-show {
+  position: absolute;
+  color: white;
+  transition: color .25s, opacity .25s, visibility .25s;
+  top: 44vh;
+  left: calc(50% - 36px);
+
+  /*
+  opacity: 0;
+  visibility: hidden;
+  */
+
+  &:hover {
+    color: var(--brand-primary);
+  }
+
+  &,
+  & a {
+    &,
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+/*
+ * [1] The same distance to top like "enter" button.
+ */
+.btn-ui-hide {
+  position: absolute;
+  top: 44vh; /* [1] */
+  left: 0;
+  z-index: 450; /* needs to be below audio playlist (499) */
+  width: 45px !important;
+  transition: left .25s, opacity .25s, visibility .25s;
+  /* opacity: 0; */
+  /* visibility: hidden; */
+}
+
+/* Flex-positioned buttons */
+.btn-flex {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex: 0 1 100%;
+}
+
+/* Home button */
+.fa-home {
+  color: orange !important;
+  &:hover {
+    color: white !important;
+  }
+}

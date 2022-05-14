@@ -1,0 +1,6 @@
+{
+  "header": "Intro",
+  "body": {
+    "text01": "This is the intro to JVdS's website. This file is actually not needed and only there to text axios and vue-router."
+  }
+}

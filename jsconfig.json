@@ -35,5 +35,8 @@
     "dist",
     ".quasar",
     "node_modules"
-  ]
+  ],
+  "vueCompilerOptions": {
+    "experimentalDisableTemplateSupport": true
+  }
 }

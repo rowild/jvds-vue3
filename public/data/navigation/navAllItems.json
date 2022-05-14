@@ -1,0 +1,113 @@
+{
+  "navMainItems": [
+    {
+      "title": "Home",
+      "path": "/home"
+    },
+    {
+      "title": "About",
+      "path": "about",
+      "submenues": [
+        {
+          "title": "CV",
+          "path": "/about/cv"
+        },
+        {
+          "title": "Musicians",
+          "path": "/about/musicians"
+        },
+        {
+          "title": "Recordings",
+          "path": "/about/recordings"
+        }
+      ]
+    },
+    {
+      "title": "Compositions",
+      "path": "compositions",
+      "submenues": [
+        {
+          "title": "All",
+          "path": "/compositions?cat=all"
+        },
+        {
+          "title": "Solo",
+          "path": "/compositions?cat=solo"
+        },
+        {
+          "title": "Chamber",
+          "path": "/compositions?cat=chamber"
+        },
+        {
+          "title": "Ensemble",
+          "path": "/compositions?cat=ensemble"
+        },
+        {
+          "title": "(With) Voice",
+          "path": "/compositions?cat=voice"
+        },
+        {
+          "title": "Orchestra",
+          "path": "/compositions?cat=orchestra"
+        },
+        {
+          "title": "(With) Electronics",
+          "path": "/compositions?cat=electronics"
+        }
+      ]
+    },
+    {
+      "title": "Writings",
+      "path": "writings",
+      "submenues": [
+        {
+          "title": "Writings from John Van der Slice",
+          "path": "/texts/from_jvds"
+        },
+        {
+          "title": "Writings about John van der Slice",
+          "path": "/texts/about_jvds"
+        }
+      ]
+    },
+    {
+      "title": "Gallery",
+      "path": "galleries",
+      "submenues": [
+        {
+          "title": "Scores Excerpts",
+          "path": "/galleries/scores_excerpts"
+        }
+      ]
+    }
+  ],
+  "navMetaItems": [
+    {
+      "title": "Welcome!",
+      "path": "/",
+      "icon": "fas fa-home fa-2x",
+      "isImportant": true
+    },
+    {
+      "title": "Copyright",
+      "path": "/copyright",
+      "icon": "fas fa-copyright"
+    },
+    {
+      "title": "Disclaimer",
+      "path": "/disclaimer",
+      "icon": "fas fa-info-circle"
+    },
+    {
+      "title": "Address",
+      "path": "/address",
+      "icon": "fas fa-envelope-open"
+    },
+    {
+      "title": "Socials",
+      "path": "https://www.facebook.com/john.vanderslice.3",
+      "external": true,
+      "icon": "fab fa-facebook-f"
+    }
+  ]
+}

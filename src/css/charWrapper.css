@@ -1,0 +1,95 @@
+/* CharWrapper letter classes */
+
+.char,
+.letter {
+  display: inline-block;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  transform: translateZ(0px);
+}
+
+.word {
+  position: absolute;
+  display: inline-block;
+  transform: translateZ(0px);
+}
+
+.word-big {
+  font-size: 36px;
+}
+
+.word-middle {
+  font-size: 24px;
+}
+
+.word-heavy {
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.word-slick {
+  font-weight: 300;
+  letter-spacing: .06em;
+}
+
+.word-addon {
+  color: grey;
+}
+
+.word-brand {
+  color: orange;
+}
+
+.word_opening {
+  top: 56vh;
+  right: 52%;
+  text-align: right;
+}
+
+.word_fn {
+  top: 56vh;
+  right: 52%;
+  text-align: right;
+  /* left: calc(52% + 5px); */
+  /* top: 56vh; */
+}
+
+.word_ln {
+  /* top: calc(56vh + 52px); */
+  top: 56vh;
+  left: calc(52% + 5px);
+  text-align: left;
+}
+
+.word_prof {
+  top: calc(56vh + 100px);
+  left: calc(52% + 5px);
+}
+
+.word_prof_01 {
+  top: calc(56vh + 100px);
+  right: 52%;
+  text-align: right;
+}
+
+.word_prof_02 {
+  top: calc(56vh + 140px);
+  left: calc(52% + 5px);
+  text-align: left;
+}
+
+ .word_prof_03 {
+  top: calc(56vh + 180px);
+  left: calc(52% + 5px);
+  text-align: left;
+}
+
+.c-keep-empty-space {
+  white-space: pre;
+}
+
+.is-space-char {
+  width: 0.55rem;
+  white-space: pre;
+}
