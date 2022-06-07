@@ -5,19 +5,13 @@
         data-sub-set-chars-class="firstname" data-custom-order="1">John</div>
 
       <div class="word word-prof-01 word-middle word-slick word-addon" data-sub-set-name="wordProf01"
-        data-sub-set-chars-class="prof01" data-custom-order="3">Composer</div>
+        data-sub-set-chars-class="prof01" data-custom-order="3">profession 1</div>
 
       <div class="line" data-sub-set-name="_exclude_" />
 
       <div class="letters-group">
         <div class="word word-lastname word-big word-heavy word-brand" data-sub-set-name="wordLastName"
-          data-sub-set-chars-class="lastname" data-custom-order="2">Van der Slice</div>
-
-        <div class="word word-prof-02 word-middle word-slick word-addon" data-sub-set-name="wordProf02"
-          data-sub-set-chars-class="prof02" data-custom-order="4">Theorist</div>
-
-        <div class="word word-prof-03 word-middle word-slick word-addon" data-sub-set-name="wordProf03"
-          data-sub-set-chars-class="prof03" data-custom-order="5">Teacher</div>
+          data-sub-set-chars-class="lastname" data-custom-order="2">Doe</div>
       </div>
 
       <router-link to="/main" class="btn btn-bright btn-medium btn-ui-show" data-sub-set-name="_exclude_">
@@ -28,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import gsap from 'gsap'
 import CharWrapper from 'src/scripts/CharWrapper.js'
@@ -64,8 +58,6 @@ const wrapCharsOfIntroText = () => {
   intro.wrapEachLetter()
 }
 
-const reverseFinished = ref(false)
-
 const tl = gsap.timeline({
   paused: true,
   onComplete: () => { console.log('TL onComplete invoked')},
@@ -78,10 +70,7 @@ onMounted(() => {
   console.log('IndexPage onMounted invoked')
 
   const introContainer = document.querySelector('.intro-container')
-  console.log('introContainer =', introContainer);
-
   wrapCharsOfIntroText()
-  console.log('allTexts_intro =', allTexts_intro);
 
   tl.set('.letter', { opacity: 0 })
   tl.set('.line', { opacity: 0, scaleY: 0 })
@@ -89,8 +78,6 @@ onMounted(() => {
   tl.to('.firstname', { autoAlpha: 1, duration: 0.5, stagger: 0.035 }, 0)
   tl.to('.lastname', { autoAlpha: 1, duration: 0.625, stagger: 0.035 }, 0)
   tl.to('.prof01', { autoAlpha: 1, duration: 0.75, stagger: 0.035 }, 0.5)
-  tl.to('.prof02', { autoAlpha: 1, duration: 0.875, stagger: 0.035 }, 0.675)
-  tl.to('.prof03', { autoAlpha: 1, duration: 1, stagger: 0.035 }, 0.825)
   tl.to('.line', { opacity: .7, scaleY: 1, duration: 1.25 }, 0.25)
   tl.to('.btn-ui-show', { autoAlpha: 1, duration: 0.5 }, '>-.5')
   tl.play()
@@ -111,10 +98,6 @@ onBeforeRouteUpdate((to, from) => {
 })
 
 onBeforeRouteLeave((to, from, next) => {
-  // called when the route that renders this component is about to
-  // be navigated away from.
-  // As with `beforeRouteUpdate`, it has access to `this` component instance.
-
   // console.log('tl =', tl);
   // console.log('to =', to);
   // console.log('from =', from);

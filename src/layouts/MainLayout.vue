@@ -6,9 +6,7 @@
       </div>
 
       <router-view v-slot="{ Component, route }" v-else>
-        <Transition appear @before-appear="onBeforeAppear" @appear="onAppear" @after-appear="onAfterAppear"
-          @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave"
-          @leave="onLeave" @after-leave="onAfterLeave" :css="false" duration="250" mode="out-in" :key="route">
+        <Transition appear :css="false" mode="out-in" :key="route">
           <component :is="Component" />
         </Transition>
       </router-view>

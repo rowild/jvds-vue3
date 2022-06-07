@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/',
@@ -14,16 +13,6 @@ const routes = [
       {
         path: '',
         component: () => import('pages/MainPage.vue'),
-        children: [
-          {
-            path: '/subsite-one',
-            component: () => import('pages/main/SubsiteOnePage.vue.vue')
-          },
-          {
-            path: '/subsite-two',
-            component: () => import('pages/main/SubsiteTwoPage.vue.vue')
-          }
-        ]
       }
     ]
   },
