@@ -113,7 +113,7 @@ onMounted(() => {
     if (document.body.classList.contains('app-active')) {
       document.body.classList.remove('app-active')
     }
-  }, 350)
+  })
 })
 
 onActivated(() => {
@@ -193,6 +193,6 @@ onBeforeRouteLeave((to, from, next) => {
     console.log('%c --- MainLayout: onBeforeRouteLeave', consColRouter);
 
     next()
-  }, 2000)
+  })
 })
 </script>

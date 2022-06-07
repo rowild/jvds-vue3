@@ -1,14 +1,18 @@
 
 :root {
+  --color-brand: rgb(255, 165, 0);
+
   --color-primary: #ddd;
-  --color-scondary: rgb(255, 165, 0);
+  --color-secondary: rgb(255, 165, 0);
   --color-tertiary: #131313;
   --color-muted: darkgrey;
+  --color-success: darkolivegreen;
 
   --color-header: var(--color-secondary);
   /* --color-header--hover: brighten(var(--color-secondary, 10)); */
 
   --border-color: rgba(52, 52, 52, 1); /* #343434 */
+
   --bg-color: rgba(115, 115, 115, 0.1);
   --bg-color-hover: rgba(155, 155, 155, 0.25);
   --bg-color-dark: rgba(25, 25, 25, 0.2);

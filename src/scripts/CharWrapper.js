@@ -1,18 +1,74 @@
 /**
  * CharWrapper
  *
- * See letter wrapper. This solution is not with regex, but with the
- * browsers' DOM parser working on nodes types:
- * if(el.nodeType === 3) { console.log("A Text Node, which is, what this class needs.")}
+ * Wrap characters, special character, empty spaces, words etc into custom
+ * defined DOM elements (div, span, etc) and assign custom defined classes to
+ * them. Useful when a per-letter,per-word or similar kind of operation has to
+ * be applied (e.g. animating with gsap etc).
+ *
+ * "Configuration" is done via applying specific data-attributes to those DOM
+ * elements that contain characters that sould be wrapped
+ *
+ * This solution uses the browsers' DOM parser on nodes types:
+ *
+ * EXAMPLE:
+ *
+ * ```html
+ * <div class="word word-firstname word-big word-heavy word-brand word-slick" data-sub-set-name="wordFirstName"
+ *   data-sub-set-chars-class="firstname" data-custom-order="1">John</div>
+ *
+ * <div class="word word-prof01 word-middle word-slick word-addon" data-sub-set-name="wordProf01"
+ *   data-sub-set-chars-class="prof01" data-custom-order="3">Composer</div>
+ *
+ * <div class="line" data-sub-set-name="_exclude_" />
+ *
+ * <div class="letters-group">
+ *   <div class="word word-lastname word-big word-heavy word-brand" data-sub-set-name="wordLastName"
+ *     data-sub-set-chars-class="lastname" data-custom-order="2">Van der Slice</div>
+ *
+ *   <div class="word word-prof02 word-middle word-slick word-addon" data-sub-set-name="wordProf02"
+ *     data-sub-set-chars-class="prof02" data-custom-order="4">Theorist</div>
+ *
+ *   <div class="word word-prof03 word-middle word-slick word-addon" data-sub-set-name="wordProf03"
+ *     data-sub-set-chars-class="prof03" data-custom-order="5">Teacher</div>
+  </div>
+ * ```
+ *
+ * ```js
+ * if(el.nodeType === 3) {
+ *    console.log("A Text Node, which is, what this class needs.")
+ * }
+ * ```
+ *
+ * OPTIONS
+ *
+ * `data-sub-set-name`: assign a name to a DOM element that contains text; this
+ *      name is used as the key to which the wrapped letters will be saved as
+ *      values.
+ *      Special option: `_exclude_` ignores
+ *
+ * `data-sub-set-chars-class`: provide a class name specific to this data-sub-set
+ *
+ * `data-sub-set-custom-order`: control the order in which DOM elements are
+ *      examined and saved to the resulting `characterObjectTree`
+ *
+ * SOURCE:
  * Node Types: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
- * Reason: regex is said to be slow and not the right tool, when it comes
- * to DOM manipulation. (Even though LetterWrapper is actually a text
- * manipulation on a var in RAM...)
+ *
+ * EXPLANATION:
+ * Regex is said to be slow and not the right tool, when it comes to DOM
+ * manipulation.
  *
  * Regex example on CodePen
  * https://codepen.io/rowild/pen/rZqJjB (forked)
+ *
+ * DEPENDECIES
+ * lodash
  */
 
+/**
+ * Preset object structure
+ */
 const rootSetObjectStructure = {
   allLetters: {},
   subSets: {

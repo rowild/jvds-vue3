@@ -12,6 +12,7 @@
 .word {
   position: absolute;
   display: inline-block;
+  font-weight: 400;
   transform: translateZ(0px);
 }
 
@@ -47,7 +48,7 @@
   text-align: right;
 }
 
-.word_fn {
+.word-firstname {
   top: 56vh;
   right: 52%;
   text-align: right;
@@ -55,37 +56,37 @@
   /* top: 56vh; */
 }
 
-.word_ln {
+.word-lastname {
   /* top: calc(56vh + 52px); */
   top: 56vh;
   left: calc(52% + 5px);
   text-align: left;
 }
 
-.word_prof {
+.word-prof {
   top: calc(56vh + 100px);
   left: calc(52% + 5px);
 }
 
-.word_prof_01 {
+.word-prof-01 {
   top: calc(56vh + 100px);
   right: 52%;
   text-align: right;
 }
 
-.word_prof_02 {
+.word-prof-02 {
   top: calc(56vh + 140px);
   left: calc(52% + 5px);
   text-align: left;
 }
 
- .word_prof_03 {
+ .word-prof-03 {
   top: calc(56vh + 180px);
   left: calc(52% + 5px);
   text-align: left;
 }
 
-.c-keep-empty-space {
+.keep-empty-space {
   white-space: pre;
 }
 

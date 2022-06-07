@@ -1,6 +1,5 @@
 /* Component BUTTON and BUTTON GROUP */
 
-
 .btn-group {
   &--nav-meta {
     position: absolute;
@@ -141,9 +140,10 @@
 .btn-toggle {
   display: block;
   &:hover {
-    color: orange;
+    color: var(--color-brand);
   }
 }
+
 .btn-toggle-nav-main {
   left: 8px;
   z-index: 6;
@@ -165,17 +165,12 @@
 .btn-ui-show {
   position: absolute;
   color: white;
-  transition: color .25s, opacity .25s, visibility .25s;
   top: 44vh;
-  left: calc(50% - 36px);
-
-  /*
-  opacity: 0;
-  visibility: hidden;
-  */
+  transition: background-color .25s, color .25s, opacity .25s, visibility .25s;
+  /* left: calc(50% - 36px); */
 
   &:hover {
-    color: var(--brand-primary);
+    color: var(--color-brand);
   }
 
   &,

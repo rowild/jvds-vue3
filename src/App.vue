@@ -3,104 +3,31 @@
     <div class="rotationLoader">Loading...</div>
   </div>
 
+  <!-- <router-view></router-view> -->
+
   <router-view v-slot="{ Component, route }" v-if="!isLoading">
-    <Transition appear mode="out-in" @before-appear="onBeforeAppear" @appear="onAppear" @after-appear="onAfterAppear"
-      @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave"
-      @leave="onLeave" @after-leave="onAfterLeave" :css="false" duration="350" :key="route">
+    <Transition appear mode="out-in" :css="false" :key="route">
       <component :is="Component" />
     </Transition>
   </router-view>
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, onDeactivated } from "vue";
+import { ref, onMounted } from "vue";
 
-let isLoading = ref(false);
+let isLoading = ref(true);
 
 /* Life cycles hooks */
 
 onMounted(() => {
   console.log("App onMounted invoked");
 
-  isLoading.value = true;
+  isLoading.value = false;
 
-  setTimeout(() => {
-    isLoading.value = false;
-
-    if (!document.body.classList.contains("app-active")) {
-      document.body.classList.add("app-active");
-    }
-  }, 500);
+  if (!document.body.classList.contains("app-active")) {
+    document.body.classList.add("app-active");
+  }
 });
-
-onActivated(() => {
-  console.log("App onActivated invoked");
-});
-
-onDeactivated(() => {
-  console.log("App onDeactivated invoked");
-});
-
-/* Transition cycles */
-
-// APPEAR
-
-function onBeforeAppear(el) {
-  // console.log('APP: onBeforeAppear invoked');
-  // gsap.set(el, { opacity: 0.25 })
-}
-
-function onAppear(el, done) {
-  // console.log('APP: onAppear invoked');
-  // gsap.to(el, { opacity: 1, duration: 2, onComplete: done })
-  done
-}
-
-function onAfterAppear(el) {
-  // console.log('APP: onAfterAppear invoked');
-}
-
-function onAfterCancelled(el) {
-  // console.log('APP: onAfterCancelled invoked');
-}
-
-// ENTER
-
-function onBeforeEnter(el) {
-  // console.log('APP: onBeforeEnter invoked');
-}
-
-function onEnter(el, done) {
-  // console.log('APP: onEnter invoked');
-  done
-}
-
-function onAfterEnter(el) {
-  // console.log('APP: onAfterEnter invoked, el =', el);
-}
-
-function onEnterCancelled(el) {
-  // console.log('APP: onEnterCancelled, el =', el);
-}
-
-// LEAVE
-
-function onBeforeLeave(el) {
-  // console.log('APP: onBeforeLeave invoked, el =', el);
-}
-
-function onLeave(el, done) {
-  // console.log('APP: onLeave invoked, el =', el);
-  done
-}
-
-function onAfterLeave(el) {
-  // console.log('APP: onAfterLeave invoked, el =', el);
-}
-
-function onLeaveCancelled(el) {
-  // console.log('APP: onLeaveCancelled, el =', el);
-}
 </script>
 
 <style lang="postcss">
