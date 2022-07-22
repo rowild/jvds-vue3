@@ -12,6 +12,7 @@ body {
   overflow: hidden;
   background: var(--dark) url("/images/patterns/noisy_net/noisy_net.png") center
     center repeat;
+  color: var(--color-primary)
 }
 
 /*
@@ -19,3 +20,23 @@ body {
   border: 5px solid blue;
 }
 */
+
+
+.rect,
+.rect2 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  z-index: 10000;
+  background-color: red;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.rect2 {
+  top: 15px;
+  left: 15px;
+  background-color: blue;
+}

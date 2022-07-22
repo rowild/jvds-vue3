@@ -9,25 +9,20 @@
 </template>
 
 <script setup>
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import loadData from '../scripts/loadData'
+import getOpus from '../restapis/CatalogOfWorks'
+import getOpusCategories from '../restapis/CategoriesOfWorks'
 
-const consColRouter = 'color: orange; font-size: 24px; padding: 6px 0;'
+const catalogOfWorksData = ref([])
+const categoriesData = ref([])
 
-onBeforeRouteUpdate((to, from) => {
-  // called when the route that renders this component has changed,
-  // but this component is reused in the new route.
-  // For example, given a route with params `/users/:id`, when we
-  // navigate between `/users/1` and `/users/2`, the same `UserDetails` component instance
-  // will be reused, and this hook will be called when that happens.
-  // Because the component is mounted while this happens, the navigation guard has access to `this` component instance.
-  console.log('%cMainPage onBeforeRouteUpdate', consColRouter);
-})
+onMounted(async () => {
+  catalogOfWorksData.value = await loadData(getOpus,'Catalog of Works loaded successfully', 'Loading the Catalog of Works failed')
+  categoriesData.value = await loadData(getOpusCategories, 'Categories of Works loaded successfully', 'Loading the Categories of Works failed')
 
-onBeforeRouteLeave((to, from) => {
-  // called when the route that renders this component is about to
-  // be navigated away from.
-  // As with `beforeRouteUpdate`, it has access to `this` component instance.
-  console.log('%cMainPage onBeforeRouteLeave', consColRouter);
+  console.log('catalogOfWorksData =', catalogOfWorksData);
+  console.log('categoriesData =', categoriesData);
 })
 </script>
 

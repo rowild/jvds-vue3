@@ -45,3 +45,17 @@ See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-
 - .eslintrc.js
 
   activate "prettier" in "extends: {}
+
+# TODO
+
+## 2022-06-10
+
+- Implement a decent logger library
+- Implement GraphQL with Directus
+- How to create a menu based on entries in Directus9?
+
+
+# Example link
+http://0.0.0.0:8055/items/posts?fields=id,title,subtitle,slug,content,featured_image,post_categories.post_categories_id.id,post_categories.post_categories_id.title,post_tags.post_tags_id.id,post_tags.post_tags_id.title
+
+http://0.0.0.0:8055/graphql?query={posts{id%20title}}

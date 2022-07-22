@@ -1,12 +1,16 @@
 <template>
   <q-layout view="lHh lpR lFf" container class="absolute-full overflow-hidden">
     <q-page-container>
+
+      <div class="rect2"></div>
+
       <div class="flex flex-center fit window-height" v-if="isPreLoading">
         <div class="rotationLoader">Loading</div>
       </div>
 
       <router-view v-slot="{ Component, route }" v-else>
-        <Transition appear :css="false" mode="out-in" :key="route">
+        <Transition appear @before-appear="onBeforeAppear" @appear="onAppear"
+          @before-enter="onBeforeEnter" @enter="onEnter" :css="false" mode="out-in" :key="route">
           <component :is="Component" />
         </Transition>
       </router-view>
@@ -20,16 +24,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, onDeactivated } from 'vue'
+import { ref, onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import gsap from 'gsap'
 
 const isPreLoading = ref(true)
+
+let rect2 = null
 
 /* Life cycles hooks */
 
 onMounted(() => {
   console.log(' ');
-  console.log('%cSTART_PAGE LAYOUT: mounted invoked', 'font-weight: 700; color: darkolivegreen; font-size: 24px');
+  console.log('%cSTART_PAGE LAYOUT: mounted invoked', 'font-weight: 700; color: blue; font-size: 14px');
+
+  rect2 =  document.querySelector('.rect2')
 
   setTimeout(() => {
     isPreLoading.value = false
@@ -44,30 +53,34 @@ onMounted(() => {
   }, 250)
 })
 
+/* Transition cycles */
+
+const onBeforeAppear = (el) => {
+  gsap.set(rect2, { autoAlpha: 0 })
+}
+
+const onAppear = (el, done) => {
+  gsap.to(rect2, { autoAlpha: 1, duration:.5, onComplete: () => done })
+}
+
+const onBeforeEnter = (el) => {
+  gsap.set(rect2, { autoAlpha: 0 })
+}
+
+const onEnter = (el, done) => {
+  gsap.to(rect2, { autoAlpha: 1, duration: .5, onComplete: () => done })
+}
+
+// const onLeave = (el, done) => {
+//   gsap.to(rect2, { autoAlpha: 0, duration: 2, onComplete: () => done })
+// }
+
 /* ROUTE GUARDS */
 
-const consColRouter = 'color: orange; font-size: 24px; padding: 6px 0;'
-
-onBeforeRouteUpdate((to, from) => {
-  // called when the route that renders this component has changed,
-  // but this component is reused in the new route.
-  // For example, given a route with params `/users/:id`, when we
-  // navigate between `/users/1` and `/users/2`, the same `UserDetails` component instance
-  // will be reused, and this hook will be called when that happens.
-  // Because the component is mounted while this happens, the navigation guard has access to `this` component instance.
-  // setTimeout(() => {
-    console.log('%c --- StartpageLayout: onBeforeRouteUpdate', consColRouter);
-  // }, 20)
-})
+const consColRouter = 'color: blue; font-size: 14px; font-weight: bold;'
 
 onBeforeRouteLeave((to, from, next) => {
-  // called when the route that renders this component is about to
-  // be navigated away from.
-  // As with `beforeRouteUpdate`, it has access to `this` component instance.
-  // setTimeout(() => {
     console.log('%c --- StartpageLayout: onBeforeRouteLeave', consColRouter);
-
-    next()
-  // }, 2000)
+    gsap.to(rect2, { autoAlpha: 0, duration: .5, onComplete: () => { next() } })
 })
 </script>

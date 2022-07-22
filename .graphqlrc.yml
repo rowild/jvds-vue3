@@ -1,0 +1,10 @@
+schema: 'http://localhost:8055/graphql'
+extensions:
+  languageService:
+    cacheSchemaFileForLookup: true
+projects:
+  jvdsDirectus:
+    documents: 'src/**/*.{graphql,js,ts,jsx,tsx}'
+    extensions:
+      languageService:
+        cacheSchemaFileForLookup: true

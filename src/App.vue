@@ -1,11 +1,11 @@
 <template>
-  <div v-if="isLoading" class="flex flex-center fit">
+  <div v-if="appIsLoading" class="flex flex-center fit">
     <div class="rotationLoader">Loading...</div>
   </div>
 
   <!-- <router-view></router-view> -->
 
-  <router-view v-slot="{ Component, route }" v-if="!isLoading">
+  <router-view v-slot="{ Component, route }" v-else>
     <Transition appear mode="out-in" :css="false" :key="route">
       <component :is="Component" />
     </Transition>
@@ -13,16 +13,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
+import { useLogger } from 'vue-logger-plugin'
 
-let isLoading = ref(true);
+// const app = getCurrentInstance()
+// const log = useLogger()
+let appIsLoading = ref(true);
 
 /* Life cycles hooks */
 
-onMounted(() => {
-  console.log("App onMounted invoked");
-
-  isLoading.value = false;
+onMounted((ctx) => {
+  appIsLoading.value = false;
 
   if (!document.body.classList.contains("app-active")) {
     document.body.classList.add("app-active");

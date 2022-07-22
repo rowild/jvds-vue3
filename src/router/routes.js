@@ -27,10 +27,24 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/catalog-of-works',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '/catalog-of-works/:category',
+        component: () => import('pages/catalog/CompositionsPage.vue'),
+      }
+    ]
+  },
+  {
+    path: '/startpage/home',
+    redirect: '/'
+  },
   // Always leave this as last one, but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
+    path: '/:pathMatch(.*)*',
+    component: () => import('pages/PageNotFound.vue')
   }
 ]
 
