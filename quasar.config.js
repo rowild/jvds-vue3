@@ -35,9 +35,9 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     preFetch: true,
     boot: [
-      'logger',
+      // 'logger',
       'router',
-      'axios',
+      // 'axios',
       // 'i18n',
       // 'apollo'
     ],

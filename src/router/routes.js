@@ -1,6 +1,3 @@
-// import StartpageLayout from 'layouts/StartpageLayout'
-// import MainLayout from 'layouts/MainLayout'
-
 const routes = [
   {
     path: '/',
@@ -22,6 +19,7 @@ const routes = [
   {
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
+    redirect: '/main/catalog',
     meta: {
       layoutKey: 'main'
     },
@@ -38,6 +36,14 @@ const routes = [
         //   navmenu: () => import('src/components/MenuComponent.vue')
         // },
         children: [
+          {
+            path: 'catalog',
+            name: 'catalog',
+            component: () => import('pages/catalog/CatalogOfWorks.vue'),
+            meta: {
+              layoutKey: 'main'
+            },
+          },
           {
             path: ':section',
             name: 'section',

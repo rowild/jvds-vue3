@@ -7,6 +7,7 @@ export const usePageTransitionsStore = defineStore('pageTransition', () => {
   const pageTransitions = ref({
     parent: false,
     child: false,
+    activateMenu: false,
     startpageLayoutAnimationDuration: 0,
     introAnimationDuration: 0,
     mainLayoutAnimationDuration: 0,
@@ -41,6 +42,11 @@ export const usePageTransitionsStore = defineStore('pageTransition', () => {
     pageTransitions.value.introAnimationDuration = duration
   }
 
+  const setActivateMenu = (bool) => {
+    console.log('pageTransitionsStore: setActivateMenu bool =', bool);
+    pageTransitions.value.activateMenu = bool
+  }
+
   // Getters are "computed properties", when pinia is setup with composition API
 
   // Actions are regular functions
@@ -48,7 +54,8 @@ export const usePageTransitionsStore = defineStore('pageTransition', () => {
   return {
     pageTransitions,
     setPageTransitions,
-    setIntroAnimationDuration
+    setIntroAnimationDuration,
+    setActivateMenu
   }
 
 })

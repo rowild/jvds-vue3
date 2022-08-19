@@ -2,10 +2,10 @@
   <div class="column justify-center full-height max-w-sm">
 
     <div class="q-mt-xl q-py-lg text-light-green-2">
-      <p>props.toggleMenu: {{ props.toggleMenu }}</p>
+      <p>store.pageTransitions.activateMenu: {{ store.pageTransitions.activateMenu }}</p>
     </div>
 
-    <div v-if="props.toggleMenu">
+    <div v-if="store.pageTransitions.activateMenu">
       <ul class="text-subtitle1 text-weight-medium color-primary q-ma-none q-pa-none q-mb-lg min-w-md" v-if="navItems">
         <li class="" v-for="item in navItems" :key="item.id">
           {{ item.name }}
@@ -18,7 +18,8 @@
 
                 <ul class="q-px-none q-mx-none">
                   <li v-for="grandchild in child.menu_items_o2m" :key="grandchild.id">
-                    <router-link :to="`/${item.slug}/${child.slug}/${grandchild.slug}`">{{ grandchild.title }}</router-link>
+                    <router-link :to="`/${item.slug}/${child.slug}/${grandchild.slug}`">{{ grandchild.title }}
+                    </router-link>
                   </li>
                 </ul>
               </template>
@@ -30,35 +31,36 @@
 
         </li>
       </ul>
+
       <div class="q-mb-lg" v-else>Building navigation...</div>
 
-      <p>Why is the MenuComponent in MainLayout.vue reinitialized, when the route changes from `/main` to `/main/setion-one`? (Also, App.vue runs through `onBeforeAppear` and `onAppear`... why?)</p>
-      <p>It is not reinitialized, when goind from `/main/section-one` to `/main/section-two` and also not, when going from `/main/section-one/item-101` to `/main/section-two/202`.</p>
-      <p>The beforeEach route guard in boot/routes.js – which is supposed to handle the MainLayout reload logic – checks **only** against the very first path segment (path.split('/')[1]) in order to decide whether the animation store's pageTransition boolean should be set to true or false – consequently enabling or disabling router changes...</p>
+      <p>Why is the MenuComponent in MainLayout.vue reinitialized, when the route changes from `/main` to
+        `/main/setion-one`? (Also, App.vue runs through `onBeforeAppear` and `onAppear`... why?)</p>
+      <p>It is not reinitialized, when goind from `/main/section-one` to `/main/section-two` and also not, when going
+        from `/main/section-one/item-101` to `/main/section-two/202`.</p>
+      <p>The beforeEach route guard in boot/routes.js – which is supposed to handle the MainLayout reload logic – checks
+        **only** against the very first path segment (path.split('/')[1]) in order to decide whether the animation
+        store's pageTransition boolean should be set to true or false – consequently enabling or disabling router
+        changes...</p>
     </div>
 
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onBeforeUpdate, onUpdated, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onBeforeUpdate, onUpdated } from 'vue'
+import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
 
+const store = usePageTransitionsStore()
 const navItems = ref([])
 let navCreated = false
-
-const props = defineProps({
-  toggleMenu: {
-    type: Boolean,
-    default: false
-  }
-})
 
 const consColRouter = 'color: lightcoral; font-size: 14px; font-weight: bold;'
 
 onMounted(() => {
   console.log('%cMENU_COMPONENT: onMounted invoked', consColRouter);
 
-  if(!navCreated) {
+  if (!navCreated) {
     // navItems.value = await loadData(getNavigation, 'Nav Items loaded', 'Could not load nav items')
     navItems.value = [
       {
@@ -79,7 +81,7 @@ onMounted(() => {
         "slug": "main",
         "menu_items_o2m": [
           {
-            "id":20,
+            "id": 20,
             "name": "MAIN CONTENT",
             "slug": "main"
           },
@@ -176,6 +178,7 @@ p {
 ul {
   list-style: none;
 }
+
 .max-w-sm {
   max-width: 200px;
 }
