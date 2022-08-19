@@ -22,8 +22,7 @@ for(const [index, field] of categoryDataFields.entries()) {
 const getOpus = `/opus?fields=id,title,additional_title,${composerDBFields}${categoryDBFields}`
 
 const getCatalogOfWorks = () => {
-
-  console.log('getOpus =', getOpus);
+  // console.log('getOpus =', getOpus);
   return getOpus
 }
 

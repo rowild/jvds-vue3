@@ -4,13 +4,17 @@
 
       <div class="rect2"></div>
 
-      <div class="flex flex-center fit window-height" v-if="isPreLoading">
-        <div class="rotationLoader">Loading</div>
+      <div class="flex flex-center fit window-height js-preloader" v-if="contentIsPreLoading">
+        <div class="rotationLoader"><!--Loading--></div>
       </div>
 
-      <router-view v-slot="{ Component, route }" v-else>
-        <Transition appear @before-appear="onBeforeAppear" @appear="onAppear"
-          @before-enter="onBeforeEnter" @enter="onEnter" :css="false" mode="out-in" :key="route">
+      <router-view v-slot="{ Component, route }" v-if="!contentIsPreLoading">
+        <Transition appear
+          @before-appear="onBeforeAppearStartpage"
+          @appear="onAppearStartpage"
+          :css="false"
+          mode="out-in"
+          :key="route.meta.layoutKey">
           <component :is="Component" />
         </Transition>
       </router-view>
@@ -26,61 +30,71 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
 import gsap from 'gsap'
 
-const isPreLoading = ref(true)
-
+const store = usePageTransitionsStore()
+const contentIsPreLoading = ref(true)
 let rect2 = null
+
+// console.log styles
+const consCol = 'color: orange; font-weight: 700; font-size: 14px;'
 
 /* Life cycles hooks */
 
 onMounted(() => {
-  console.log(' ');
-  console.log('%cSTART_PAGE LAYOUT: mounted invoked', 'font-weight: 700; color: blue; font-size: 14px');
+  console.log('%cSTARTPAGE LAYOUT: mounted invoked', consCol);
 
   rect2 =  document.querySelector('.rect2')
+  gsap.set(rect2, { autoAlpha: 0 })
 
-  setTimeout(() => {
-    isPreLoading.value = false
+  // contentIsPreLoading.value = false
+  gsap.to('.js-preloader', { duration: .25, autoAlpha: 0, onComplete: () => { contentIsPreLoading.value = false } })
 
-    if (!document.body.classList.contains('app-active')) {
-      document.body.classList.add('app-active')
-    }
-
-    if (document.body.classList.contains('subpage-active')) {
-      document.body.classList.remove('subpage-active')
-    }
-  }, 250)
+  if (document.body.classList.contains('subpage-active')) {
+    console.log('STARTPAGE_LAYOUT: set body tag subpage-active');
+    document.body.classList.remove('subpage-active')
+  }
 })
 
 /* Transition cycles */
 
-const onBeforeAppear = (el) => {
+const onBeforeAppearStartpage = (el) => {
+  console.log('%cSTARTPAGE_LAYOUT: onBeforeAppearStartpage invoked', consCol);
   gsap.set(rect2, { autoAlpha: 0 })
 }
 
-const onAppear = (el, done) => {
+const onAppearStartpage = (el, done) => {
+  console.log('%cSTARTPAGE_LAYOUT: Appear invoked', consCol);
   gsap.to(rect2, { autoAlpha: 1, duration:.5, onComplete: () => done })
 }
 
-const onBeforeEnter = (el) => {
-  gsap.set(rect2, { autoAlpha: 0 })
-}
-
-const onEnter = (el, done) => {
-  gsap.to(rect2, { autoAlpha: 1, duration: .5, onComplete: () => done })
-}
-
-// const onLeave = (el, done) => {
-//   gsap.to(rect2, { autoAlpha: 0, duration: 2, onComplete: () => done })
-// }
-
-/* ROUTE GUARDS */
-
-const consColRouter = 'color: blue; font-size: 14px; font-weight: bold;'
+/* Router Guards */
 
 onBeforeRouteLeave((to, from, next) => {
-    console.log('%c --- StartpageLayout: onBeforeRouteLeave', consColRouter);
-    gsap.to(rect2, { autoAlpha: 0, duration: .5, onComplete: () => { next() } })
+  console.log('%cSTARTPAGE_LAYOUT: onBeforeRouteLeave', consCol);
+
+  console.log('    -> from =', from);
+  console.log('    -> to =', to);
+
+  // This needs to respect the animation duraton in IndexPage.vue's onBeforeRouterLeave.
+  // GSAP does provide a tl.duration (or tl.length) option, but how can we access it here?
+  // Maybe also via pinia state?
+  // Add it as delay
+
+  console.log('store.pageTransitions.introAnimationDuration =', store.pageTransitions.introAnimationDuration);
+
+  if(store.pageTransitions.parent) {
+    gsap.to(rect2, { delay: store.pageTransitions.introAnimationDuration, autoAlpha: 0, duration: .5, onComplete: () => { next() } })
+  } else {
+    console.log('   NOPE, do not invoke router guard onBeforeRouteUpdate');
+    next()
+  }
+})
+
+onBeforeRouteUpdate((to, from) => {
+  console.log('%cSTARTPAGE_LAYOUT: onBeforeRouteUpdate', consCol);
+  // console.log('  from =', from);
+  // console.log('  to =', to);
 })
 </script>

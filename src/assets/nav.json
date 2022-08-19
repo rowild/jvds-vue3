@@ -1,0 +1,70 @@
+[
+  {
+    "id": 10,
+    "name": "START PAGE",
+    "slug": "startpage",
+    "menu_items_o2m": [
+      {
+        "id": 1,
+        "title": "Home",
+        "slug": "home"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "MAIN PAGE",
+    "slug": "main",
+    "menu_items_o2m": [
+      {
+        "id": 6,
+        "name": "SECTION ONE",
+        "slug": "section-one",
+        "menu_items_o2m": [
+          {
+            "id": 2,
+            "title": "Item 101",
+            "slug": "item-101"
+          },
+          {
+            "id": 5,
+            "title": "Item 102",
+            "slug": "item-102"
+          },
+          {
+            "id": 6,
+            "title": "Item 103",
+            "slug": "item-103"
+          },
+          {
+            "id": 7,
+            "title": "Item 104",
+            "slug": "item-104"
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "name": "SECTION TWO",
+        "slug": "section-two",
+        "menu_items_o2m": [
+          {
+            "id": 22,
+            "title": "Item 201",
+            "slug": "item-201"
+          },
+          {
+            "id": 25,
+            "title": "Item 202",
+            "slug": "item-202"
+          },
+          {
+            "id": 26,
+            "title": "Item 203",
+            "slug": "item-203"
+          }
+        ]
+      }
+    ]
+  }
+]
