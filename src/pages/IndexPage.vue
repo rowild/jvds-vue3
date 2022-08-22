@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
 import gsap from 'gsap'
@@ -18,42 +18,36 @@ const store = usePageTransitionsStore()
 
 const tl = gsap.timeline({
   paused: true,
-  onComplete: () => { console.log('TL onComplete invoked')},
+  onComplete: () => { console.log('TL onComplete invoked') },
 })
 
-// --- HELPER
+// console.log styles
 const consCol = 'color: darkslateblue; font-weight: 700; font-size: 14px;'
 
 onMounted(() => {
   console.log('%cINDEX_PAGE: onMounted invoked', consCol)
 
-  // @TODO
-  // Should respect the length of the startpageLayout intro animation length
-  // but that very length MUST NOT be incorporated into the tl.duration!
-
   tl.set('.intro-container', { autoAlpha: 1 })
-  tl.to('.btn-ui-show', { autoAlpha: 1, duration: 0.5 })
+  tl.to('.btn-ui-show', { autoAlpha: 1, duration: 2 })
+
   tl.play()
-
-  // should be saved to store as "introTimelineDuration"
-  store.setIntroAnimationDuration(tl.duration())
-})
-
-onBeforeRouteUpdate((to, from) => {
-  console.log('%cINDEX_PAGE: onBeforeRouteUpdate', consCol);
 })
 
 onBeforeRouteLeave((to, from, next) => {
   console.log('%cINDEX_PAGE: onBeforeRouteLeave invoked with a GSAP animation', consCol);
-  console.log('  tl.duration() =', tl.duration());
+
+  store.setPageTransitions('parent', true)
 
   tl.pause()
   tl.reversed()
   tl.eventCallback('onReverseComplete', () => {
-    console.log('reverse complete')
-    next()
+    console.log('reverse complete...')
+    setTimeout(() => {
+      console.log('...wait 200ms secs for next...');
+      next()
+    }, 200)
   })
-  tl.timeScale(.5).reverse(0)
+  tl.timeScale(1).reverse(0)
 })
 
 </script>

@@ -16,6 +16,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+const layoutIsPreloading = ref(true)
+
 // console.log styles
 const consCol = 'color: green; font-weight: 700; font-size: 14px;'
 
@@ -27,6 +29,8 @@ onMounted((ctx) => {
   if (!document.body.classList.contains("app-active")) {
     document.body.classList.add("app-active");
   }
+
+  layoutIsPreloading.value = false
 });
 
 const onBeforeAppearApp = () => {

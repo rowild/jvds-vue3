@@ -21,9 +21,8 @@ body {
 }
 */
 
-
-.rect,
-.rect2 {
+.rectStartPageLayout,
+.rectMainLayout {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -31,7 +30,7 @@ body {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 30px;
+  width: 230px;
   height: 30px;
   z-index: 20000;
   background-color: crimson;
@@ -40,15 +39,11 @@ body {
   opacity: 0; */
 }
 
-.rect2 {
+.rectMainLayout {
   top: 15px;
   left: 15px;
   background-color: blue;
 }
-
-/* .rect {
-  width: 230px;
-} */
 
 
 .rotationLoader {

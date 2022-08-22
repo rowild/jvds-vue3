@@ -19,7 +19,6 @@ const routes = [
   {
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
-    redirect: '/main/catalog',
     meta: {
       layoutKey: 'main'
     },
@@ -31,10 +30,6 @@ const routes = [
         meta: {
           layoutKey: 'main'
         },
-        // components: {
-        //   default: () => import('pages/MainPage.vue'),
-        //   navmenu: () => import('src/components/MenuComponent.vue')
-        // },
         children: [
           {
             path: 'catalog',

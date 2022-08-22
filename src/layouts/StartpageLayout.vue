@@ -2,32 +2,38 @@
   <q-layout view="lHh lpR lFf" container class="absolute-full overflow-hidden">
     <q-page-container>
 
-      <div class="rect2"></div>
+      <div class="rectStartPageLayout">Startpage layout</div>
 
       <div class="flex flex-center fit window-height js-preloader" v-if="contentIsPreLoading">
-        <div class="rotationLoader"><!--Loading--></div>
+        <div class="rotationLoader">
+          <!--Loading-->
+        </div>
       </div>
 
       <router-view v-slot="{ Component, route }" v-if="!contentIsPreLoading">
-        <Transition appear
-          @before-appear="onBeforeAppearStartpage"
-          @appear="onAppearStartpage"
-          :css="false"
-          mode="out-in"
-          :key="route.meta.layoutKey">
+        <Transition appear @appear="onAppear" :css="false" mode="out-in" :key="route.meta.layoutKey">
           <component :is="Component" />
         </Transition>
       </router-view>
-
-      <!--
-      <router-view v-else></router-view>
-      -->
 
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
+
+/**
+ * SEQUENCE OF ANIMATION
+ *
+ * First page call:
+ * - animate startpageLayout's onAppear (we use keepAlive, so onMount will not
+ *   work when this page is re-visted.)
+ * - animate router-view component
+ *
+ * Page call when returning from somewhere else
+ * - ...
+ */
+
 import { ref, onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
@@ -35,7 +41,7 @@ import gsap from 'gsap'
 
 const store = usePageTransitionsStore()
 const contentIsPreLoading = ref(true)
-let rect2 = null
+let rectStartPageLayout = null
 
 // console.log styles
 const consCol = 'color: orange; font-weight: 700; font-size: 14px;'
@@ -45,8 +51,8 @@ const consCol = 'color: orange; font-weight: 700; font-size: 14px;'
 onMounted(() => {
   console.log('%cSTARTPAGE LAYOUT: mounted invoked', consCol);
 
-  rect2 =  document.querySelector('.rect2')
-  gsap.set(rect2, { autoAlpha: 0 })
+  rectStartPageLayout = document.querySelector('.rectStartPageLayout')
+  gsap.set(rectStartPageLayout, { autoAlpha: 0 })
 
   // contentIsPreLoading.value = false
   gsap.to('.js-preloader', { duration: .25, autoAlpha: 0, onComplete: () => { contentIsPreLoading.value = false } })
@@ -59,14 +65,14 @@ onMounted(() => {
 
 /* Transition cycles */
 
-const onBeforeAppearStartpage = (el) => {
-  console.log('%cSTARTPAGE_LAYOUT: onBeforeAppearStartpage invoked', consCol);
-  gsap.set(rect2, { autoAlpha: 0 })
-}
+// const onBeforeAppearStartpage = (el) => {
+//   console.log('%cSTARTPAGE_LAYOUT: onBeforeAppearStartpage invoked', consCol);
+//   gsap.set(rectStartPageLayout, { autoAlpha: 0 })
+// }
 
-const onAppearStartpage = (el, done) => {
-  console.log('%cSTARTPAGE_LAYOUT: Appear invoked', consCol);
-  gsap.to(rect2, { autoAlpha: 1, duration:.5, onComplete: () => done })
+const onAppear = (el, done) => {
+  console.log('%cSTARTPAGE_LAYOUT: onAppear invoked', consCol);
+  gsap.to(rectStartPageLayout, { autoAlpha: 1, duration: .5, onComplete: () => done })
 }
 
 /* Router Guards */
@@ -74,27 +80,24 @@ const onAppearStartpage = (el, done) => {
 onBeforeRouteLeave((to, from, next) => {
   console.log('%cSTARTPAGE_LAYOUT: onBeforeRouteLeave', consCol);
 
-  console.log('    -> from =', from);
-  console.log('    -> to =', to);
+  // This router guard is valled AFTER the INDEX.vue's router guard. That means
+  // the animation here
 
-  // This needs to respect the animation duraton in IndexPage.vue's onBeforeRouterLeave.
-  // GSAP does provide a tl.duration (or tl.length) option, but how can we access it here?
-  // Maybe also via pinia state?
-  // Add it as delay
+  if (store.pageTransitions.parent) {
+    console.log('   YES, invoke router guard');
+    // Intention of the delay prop: wait for the end of the animation in router-view
+    // component (here: index.vue). But it turns out, this is not needed, since
+    // the files' router guards are called in sequence and NOT at the same time.
+    // delay: store.pageTransitions.introAnimationDuration
 
-  console.log('store.pageTransitions.introAnimationDuration =', store.pageTransitions.introAnimationDuration);
-
-  if(store.pageTransitions.parent) {
-    gsap.to(rect2, { delay: store.pageTransitions.introAnimationDuration, autoAlpha: 0, duration: .5, onComplete: () => { next() } })
+    gsap.to(rectStartPageLayout, { autoAlpha: 0, duration: 2, onComplete: () => { next() } })
   } else {
-    console.log('   NOPE, do not invoke router guard onBeforeRouteUpdate');
+    console.log('   NOPE, do NOT invoke router guard');
     next()
   }
 })
 
-onBeforeRouteUpdate((to, from) => {
-  console.log('%cSTARTPAGE_LAYOUT: onBeforeRouteUpdate', consCol);
-  // console.log('  from =', from);
-  // console.log('  to =', to);
-})
+// onBeforeRouteUpdate((to, from) => {
+//   console.log('%cSTARTPAGE_LAYOUT: onBeforeRouteUpdate', consCol);
+// })
 </script>

@@ -1,16 +1,19 @@
 import { ref, reactive, computed } from 'vue'
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
-export const usePageTransitionsStore = defineStore('pageTransition', () => {
+export const usePageTransitionsStore = defineStore('pageTransitions', () => {
 
   // quasi "state"
   const pageTransitions = ref({
     parent: false,
     child: false,
     activateMenu: false,
-    startpageLayoutAnimationDuration: 0,
-    introAnimationDuration: 0,
-    mainLayoutAnimationDuration: 0,
+    //
+    startMainPageMountAnimation: false,
+    //
+    // mainLayoutAnimationDuration: 1.0,
+    // introAnimationDuration: 1.5,
+    // startpageLayoutAnimationDuration: 0.5,
     // menuAnimationDuration: 0
   })
 
@@ -47,6 +50,10 @@ export const usePageTransitionsStore = defineStore('pageTransition', () => {
     pageTransitions.value.activateMenu = bool
   }
 
+  const setStartMainPageMountAnimation = (bool) => {
+    pageTransitions.value.startMainPageMountAnimation = bool
+  }
+
   // Getters are "computed properties", when pinia is setup with composition API
 
   // Actions are regular functions
@@ -55,7 +62,8 @@ export const usePageTransitionsStore = defineStore('pageTransition', () => {
     pageTransitions,
     setPageTransitions,
     setIntroAnimationDuration,
-    setActivateMenu
+    setActivateMenu,
+    setStartMainPageMountAnimation
   }
 
 })

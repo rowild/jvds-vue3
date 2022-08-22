@@ -182,6 +182,16 @@
   }
 }
 
+.btn-no-underline {
+  &,
+  & a {
+    &,
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
 /*
  * [1] The same distance to top like "enter" button.
  */

@@ -2,7 +2,10 @@
   <q-page class="flex flex-center column">
     <h2 class="text-h2">Detail Page:</h2>
 
-    <p class="route">$route.params.category: {{ $route.params.category }}</p>
+    <p class="route">
+      $route.params.section: {{ $route.params.section }}<br />
+      $route.params.detail: {{ $route.params.detail }}
+    </p>
 
     <router-link to="/">
       Go to home page
@@ -13,11 +16,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const consCol = 'color: cadetblue; font-size: 14px; font-weight 700'
 
 onMounted(() => {
   console.log('%cDETAIL: onMounted invoked', consCol);
+  console.log('router =', router);
 })
 
 </script>

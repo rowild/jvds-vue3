@@ -1,24 +1,26 @@
 <template>
   <q-layout view="lHh Lpr lFf" container class="absolute-full overflow-hidden">
 
-    <div class="rect"></div>
+    <div ref="rectMainLayout" class="rectMainLayout">Main layout</div>
 
     <div class="nav-container absolute full-height q-px-sm">
 
+      <div class="q-pt-xl q-px-sm text-light-green-2">
+        <p>store.pageTransitions.activateMenu: {{ store.pageTransitions.activateMenu }}</p>
+      </div>
+
       <div class="column justify-center full-height max-w-sm">
 
-        <div class="q-mt-xl q-py-lg text-light-green-2">
-          <p>store.pageTransitions.activateMenu: {{ store.pageTransitions.activateMenu }}</p>
-        </div>
-
         <div v-if="store.pageTransitions.activateMenu">
-          <ul class="text-subtitle1 text-weight-medium color-primary q-ma-none q-pa-none q-mb-lg min-w-md"
-            v-if="navItems">
+
+          <ul class="nav-menu text-subtitle1 text-weight-medium color-primary q-ma-none q-pa-none q-mb-lg min-w-md"
+            v-if="navItems" ref="navMenu">
 
             <li class="" v-for="item in navItems" :key="item.id">
               {{ item.name }}
 
               <ul class="q-px-none q-mx-none" v-if="item.menu_items_o2m">
+
                 <li v-for="child in item.menu_items_o2m" :key="child.id">
 
                   <template v-if="child.menu_items_o2m">
@@ -35,21 +37,11 @@
                   <router-link v-else :to="`/${item.slug}/${child.slug}`">{{ child.name }}</router-link>
 
                 </li>
+
               </ul>
 
             </li>
           </ul>
-
-          <div class="q-mb-lg" v-else>Building navigation...</div>
-
-          <p>Why is the MenuComponent in MainLayout.vue reinitialized, when the route changes from `/main` to
-            `/main/setion-one`? (Also, App.vue runs through `onBeforeAppear` and `onAppear`... why?)</p>
-          <p>It is not reinitialized, when goind from `/main/section-one` to `/main/section-two` and also not, when
-            going from `/main/section-one/item-101` to `/main/section-two/202`.</p>
-          <p>The beforeEach route guard in boot/routes.js – which is supposed to handle the MainLayout reload logic –
-            checks **only** against the very first path segment (path.split('/')[1]) in order to decide whether the
-            animation store's pageTransition boolean should be set to true or false – consequently enabling or disabling
-            router changes...</p>
         </div>
 
       </div>
@@ -62,8 +54,7 @@
     <q-page-container v-if="!layoutIsLoading">
       <router-view v-slot="{ Component, route }">
         <KeepAlive>
-          <Transition appear @before-appear="onBeforeAppear" @appear="onAppear" :css="false" mode="out-in"
-            :key="route.meta.layoutKey">
+          <Transition appear @appear="onAppear" :css="false" mode="out-in" :key="route.meta.layoutKey">
             <component :is="Component" />
           </Transition>
         </KeepAlive>
@@ -73,15 +64,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
+import { ref, onMounted, watchEffect } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
 import gsap from 'gsap'
 
 const store = usePageTransitionsStore()
-console.log('store.pageTransitions.activateMenu =', store.pageTransitions.activateMenu);
 
-const navItems = ref([
+const navItems = [
   {
     "id": 10,
     "name": "START PAGE",
@@ -155,23 +145,29 @@ const navItems = ref([
       }
     ]
   }
-])
-
-const route = useRoute()
+]
 
 const layoutIsLoading = ref(true)
-const menuToggleVisible = ref(false)
 
-let rect = null
+// DOM Elements
+const rectMainLayout = ref(null)
+const navMenu = ref(null)
 
-const consColRouter = 'color: darkviolet; font-size: 14px; font-weight: bold;'
+// Timelines
+
+// Dissolve menu and mainlayout; define here, otherwise it will be redefined every
+// time the onBeforeRouteLeave gets invoked
+const tl = gsap.timeline({
+  paused: true,
+})
+
+// console.log styles
 const consCol = 'color: darkviolet; font-weight: 700; font-size: 14px;'
 
 /* Life cycles hooks */
 
 onMounted(async () => {
   console.log('%cMAIN_LAYOUT: onMounted invoked', consCol);
-  console.log('route.value =', route);
 
   if (!document.body.classList.contains('subpage-active')) {
     document.body.classList.add('subpage-active')
@@ -181,86 +177,73 @@ onMounted(async () => {
     document.body.classList.remove('app-active')
   }
 
-  rect = document.querySelector('.rect')
+  // Only animate, when the state says so
   if (store.pageTransitions.parent) {
-    console.log('   YES, invoke transition onMounted, do GSAP to 0');
-    gsap.set(rect, { autoAlpha: 0 })
+    console.log('   YES, invoke transition onMounted, do GSAP alpha to 0');
+    gsap.set(rectMainLayout.value, { autoAlpha: 0 })
   }
-
-  setTimeout(() => {
-    store.setActivateMenu(true)
-    menuToggleVisible.value = true
-  }, 1000)
 
   layoutIsLoading.value = false
 })
 
-/* Transitions for content */
-
-const onBeforeAppear = () => {
-  console.log('%cMAIN_LAYOUT: onBeforeAppear invoked', consColRouter);
-
-  if (store.pageTransitions.parent) {
-    console.log('   YES, invoke transition onBeforeAppear, do GSAP alpha to 0');
-    gsap.set(rect, { autoAlpha: 0 })
-  } else {
-    console.log('   NOPE, do not invoke transition onBeforeAppear');
+// watchEffect is capable of watching any reactive variables that are referenced
+// within the callback function.
+watchEffect(() => {
+  // Fade in menu, when all the parameters are met.
+  if (navItems.length > 0 && store.pageTransitions.parent && store.pageTransitions.activateMenu && navMenu.value) {
+    gsap.set(navMenu.value, { autoAlpha: 0 })
+    gsap.to(navMenu.value, {
+      autoAlpha: 1,
+      duration: 1,
+      onComplete: () => {
+        store.setStartMainPageMountAnimation(true)
+      }
+    })
   }
-}
+})
+
+/* Transitions hooks */
 
 const onAppear = (el, done) => {
-  console.log('%cMAIN_LAYOUT: onAppear invoked', consColRouter);
+  console.log('%cMAIN_LAYOUT: onAppear invoked', consCol);
 
   if (store.pageTransitions.parent) {
     console.log('   YES, invoke transition onAppear, do GSAP alpha to 1');
-    gsap.to(rect, { autoAlpha: 1, duration: 1, onComplete: () => done })
-  } else {
+    gsap.to(rectMainLayout.value, {
+      autoAlpha: 1, duration: 1, onComplete: () => {
+        store.setActivateMenu(true)
+        done
+      }
+    })
+  }
+  else {
     console.log('   NOPE, do not invoke transition onAppear');
     done()
   }
 }
 
-const onAfterAppear = (el, done) => {
-  console.log('%cMAIN_LAYOUT: onAfterAppear invoked', consColRouter);
-}
-
-/* ROUTE GUARDS */
-
-onBeforeRouteUpdate((to, from, next) => {
-  console.log('%cMAIN_LAYOUT: onBeforeRouteUpdate invoked', consColRouter);
-
-  console.log('    -> from =', from, ', from.meta.layoutKey =', from.meta.layoutKey);
-  console.log('    -> to =', to, ', to.meta.layoutKey =', to.meta.layoutKey);
-
-  // let fromParentPath = `/${from.path.split('/')[1]}`
-  // let toParentPath = `/${to.path.split('/')[1]}`
-
-  // console.log('    -> fromParentPath =', fromParentPath);
-  // console.log('    -> toParentPath =', toParentPath);
-
-  // if(fromParentPath !== toParentPath) {
-  if (from.meta.layoutKey !== to.meta.layoutKey) {
-    console.warn('   YES, invoke router guard onBeforeRouteUpdate  SHOULD I DO GSAP TO 0 ???');
-    // gsap.to(rect, { autoAlpha: 0, duration: 1.35, onComplete: () => { next() } })
-    next()
-  } else {
-    console.log('   NOPE, do not invoke router guard onBeforeRouteUpdate');
-    next()
-  }
-})
+/* Router guards */
 
 onBeforeRouteLeave((to, from, next) => {
-  console.log('%cMAIN_LAYOUT: onBeforeRouteLeave invoked, activate GSAP on rect', consColRouter);
+  console.log('%cMAIN_LAYOUT: onBeforeRouteLeave invoked, activate GSAP on rectMainLayout', consCol);
 
-  // HERE: make nav menu disappear
-  gsap.to(rect, { autoAlpha: 0, duration: 1.35, onComplete: () => { next() } })
+  // "tl" is defined outside of this method, otherwise it would be redefined every
+  // time this method is called.
+  tl.to(navMenu.value, { autoAlpha: 0, duration: 2 })
+  tl.to(rectMainLayout.value, { autoAlpha: 0, duration: 2 })
+  tl.eventCallback('onComplete', () => {
+    console.log('Dissolve menu and mainlayout complete...')
+    store.setActivateMenu(false)
+    next()
+  })
+
+  tl.play()
 })
 
 </script>
 
 <style lang="postcss">
 .nav-container {
-  border: 3px solid red;
   min-width: 16rem;
   color: var(--color-brand);
   z-index: 1000;
