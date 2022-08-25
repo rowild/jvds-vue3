@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-center column border">
-    <h2 class="text-h4">Compositions</h2>
+  <div class="flex flex-center column">
+    <h2 class="text-h4">CATALOG START</h2>
 
     <p>Category: {{ $route.params.category }}</p>
 
@@ -16,6 +16,6 @@ import { onMounted } from 'vue'
 const consCol = 'color: firebrick; font-size: 14px; font-weight 700'
 
 onMounted(() => {
-  console.log('%cCATALOG_OF_WORKS: onMounted invoked', consCol);
+  console.log('%cCATALOG_START: onMounted invoked', consCol);
 })
 </script>

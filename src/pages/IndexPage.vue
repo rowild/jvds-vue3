@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="flex flex-center column window-height">
+  <q-page padding class="flex flex-center column">
     <div class="intro-container">
       <router-link to="/main" class="btn btn-bright btn-medium btn-ui-show" data-sub-set-name="_exclude_">
         Enter
@@ -9,16 +9,38 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { watchEffect, onMounted } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { usePageTransitionsStore } from 'src/stores/pageTransitions.js'
 import gsap from 'gsap'
 
 const store = usePageTransitionsStore()
 
-const tl = gsap.timeline({
+const indexPageTL = gsap.timeline({
   paused: true,
-  onComplete: () => { console.log('TL onComplete invoked') },
+  onStart: () => {
+    console.log('IndexPage GSAP timeline onStart invoked')
+  },
+  onComplete: () => {
+    console.log('IndexPage GSAP timeline onComplete invoked')
+  }
+})
+
+const indexPageMountAnimation = () => {
+  indexPageTL.set('.intro-container', { autoAlpha: 1 })
+  indexPageTL.to('.btn-ui-show', { autoAlpha: 1, duration: .5 })
+
+  store.setAnimationDuration('indexPage', indexPageTL.duration())
+
+  indexPageTL.play()
+}
+
+watchEffect(() => {
+  if (store.pageTransitions.indexPageMountAnimation) {
+    console.log('IndexPage watchEffect: store.pageTransitions.indexPageMountAnimation =', store.pageTransitions.indexPageMountAnimation);
+
+    indexPageMountAnimation()
+  }
 })
 
 // console.log styles
@@ -26,11 +48,10 @@ const consCol = 'color: darkslateblue; font-weight: 700; font-size: 14px;'
 
 onMounted(() => {
   console.log('%cINDEX_PAGE: onMounted invoked', consCol)
+})
 
-  tl.set('.intro-container', { autoAlpha: 1 })
-  tl.to('.btn-ui-show', { autoAlpha: 1, duration: 2 })
-
-  tl.play()
+onBeforeRouteUpdate((to, from, next) => {
+  console.log('%cINDEX_PAGE: onBeforeRouteChange invoked', consCol);
 })
 
 onBeforeRouteLeave((to, from, next) => {
@@ -38,32 +59,13 @@ onBeforeRouteLeave((to, from, next) => {
 
   store.setPageTransitions('parent', true)
 
-  tl.pause()
-  tl.reversed()
-  tl.eventCallback('onReverseComplete', () => {
-    console.log('reverse complete...')
-    setTimeout(() => {
-      console.log('...wait 200ms secs for next...');
-      next()
-    }, 200)
+  indexPageTL.pause()
+  indexPageTL.reversed()
+  indexPageTL.eventCallback('onReverseComplete', () => {
+    console.log('IndexPage onBeforeRouteLeave => onReverseComplete...')
+    store.setMountAnimation('indexPage', false)
+    next()
   })
-  tl.timeScale(1).reverse(0)
+  indexPageTL.reverse(0)
 })
-
 </script>
-
-<style lang="postcss" scoped>
-.intro-container {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  font-family: var(--k2d);
-}
-
-/* Change via JS */
-.intro-container,
-.btn-ui-show {
-  opacity: 0;
-}
-</style>

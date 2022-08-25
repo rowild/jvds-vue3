@@ -1,9 +1,10 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/StartpageLayout.vue'),
+    component: () => import('layouts/IndexLayout.vue'),
     meta: {
-      layoutKey: 'home'
+      layoutKey: 'home',
+      nextAnimation: false
     },
     children: [
       {
@@ -11,7 +12,8 @@ const routes = [
         name: 'Home',
         component: () => import('pages/IndexPage.vue'),
         meta: {
-          layoutKey: 'home'
+          layoutKey: 'home',
+          nextAnimation: false
         },
       }
     ]
@@ -20,23 +22,27 @@ const routes = [
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
     meta: {
-      layoutKey: 'main'
+      layoutKey: 'main',
+      nextAnimation: false
     },
+    redirect: '/main/catalog',
     children: [
       {
-        path: '',
+        path: 'catalog',
         name: 'main-page',
         component:  () => import('pages/MainPage.vue'),
         meta: {
-          layoutKey: 'main'
+          layoutKey: 'main',
+          nextAnimation: false
         },
         children: [
           {
-            path: 'catalog',
-            name: 'catalog',
-            component: () => import('pages/catalog/CatalogOfWorks.vue'),
+            path: 'all',
+            name: 'catalog-start-page',
+            component: () => import('pages/catalog/CatalogStart.vue'),
             meta: {
-              layoutKey: 'main'
+              layoutKey: 'main',
+              nextAnimation: false
             },
           },
           {
@@ -44,16 +50,27 @@ const routes = [
             name: 'section',
             component: () => import('pages/catalog/CatalogOfWorks.vue'),
             meta: {
-              layoutKey: 'main'
+              layoutKey: 'main',
+              nextAnimation: false
             },
           },
           {
-            path: ':section/:detail',
-            name: 'section-detail',
-            component: () => import('pages/catalog/DetailPage.vue'),
+            path: ':section/:content',
+            name: 'section-content',
+            component: () => import('pages/catalog/SectionContentPage.vue'),
             meta: {
-              layoutKey: 'main'
+              layoutKey: 'main',
+              nextAnimation: false
             },
+            children: {
+              path:':detail',
+              name: 'detail',
+              component: () => import('pages/catalog/DetailPage.vue'),
+              meta: {
+                layoutKey: 'main',
+                nextAnimation: false
+              },
+            }
           }
         ]
       }
